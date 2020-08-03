@@ -51,8 +51,10 @@ public class Player : MonoBehaviour
         bool ctrl = Input.GetKey(KeyCode.LeftControl);
         ani.SetBool("滑行開關", ctrl);
 
-        // 站立 位移 -0.1 -0.4 尺寸 1.35 3.6
+        // 如果 按下 ctrl
         // 滑行 位移 -0.1 -1.5 尺寸 1.35 1.35
+        // 否則
+        // 站立 位移 -0.1 -1.5 尺寸 1.35 1.35
     }
 
     /// <summary>

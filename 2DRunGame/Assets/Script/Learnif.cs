@@ -17,4 +17,48 @@ public class Learnif : MonoBehaviour
             print("我是判斷式 :P");
         }
     }
+
+    public bool open;
+
+    public int score = 100;
+
+    private void Update()
+    {
+        // 語法：
+        // 否則 { 程式內容 }
+        // 當布林值等於 false 時才會執行否則 {} 內容
+        // 否則必須寫在 if 下方，不能單獨使用
+        if (open)
+        {
+            print("開門!!!");
+        }
+        else
+        {
+            print("關門!!!");
+        }
+
+        // 如果 分數 大於等於 60 就及格
+        // 如果 分數 小於等於 40 就補考
+        // 否則 當掉
+        // 語法：
+        // 否則如果(布林值) { 程式內容 }
+        // 比較運算子 >= 結果為布林值
+        if (score >= 60)
+        {
+            print("及格");
+        }
+        else if (score >= 40)
+        {
+            print("你可以補考");
+        }
+        else if (score >= 20)
+        {
+            print("請付錢補考 = =");
+        }
+        else
+        {
+            print("你被當掉惹!!!");
+        }
+    }
+
 }
