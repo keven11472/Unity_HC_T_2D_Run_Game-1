@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 22237018}
   - component: {fileID: 22237019}
   - component: {fileID: 22237020}
+  - component: {fileID: 22237021}
   m_Layer: 0
   m_Name: "\u5B78\u7FD2\u7269\u4EF6"
   m_TagString: Untagged
@@ -219,6 +220,20 @@ MonoBehaviour:
   sphere: {fileID: 988081113}
   tra: {fileID: 988081117}
   cube: {fileID: 1070682290}
+  myLight: {fileID: 1795492428}
+  cam: {fileID: 1728013615}
+--- !u!114 &22237021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22237014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 956fe2a0cb46ca24b91e2184c5bf2894, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &988081113
 GameObject:
   m_ObjectHideFlags: 0

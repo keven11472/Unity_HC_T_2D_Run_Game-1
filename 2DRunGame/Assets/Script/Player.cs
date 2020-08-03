@@ -37,7 +37,10 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Jump()
     {
-        
+        // 動畫控制器,設定布林值("參數名稱"，布林值)
+        // true 玩家是否按下空白鍵
+        bool space = Input.GetKeyDown(KeyCode.Space);
+        ani.SetBool("跳躍開關", space);
     }
 
     /// <summary>
@@ -45,7 +48,11 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Slide()
     {
-        
+        bool ctrl = Input.GetKey(KeyCode.LeftControl);
+        ani.SetBool("滑行開關", ctrl);
+
+        // 站立 位移 -0.1 -0.4 尺寸 1.35 3.6
+        // 滑行 位移 -0.1 -1.5 尺寸 1.35 1.35
     }
 
     /// <summary>
@@ -79,6 +86,12 @@ public class Player : MonoBehaviour
     {
 
     }
+
+    private void Update()
+    {
+        Jump();
+        Slide();
+    }
     #endregion
 
     #region 事件
@@ -87,9 +100,9 @@ public class Player : MonoBehaviour
          
     }
 
-    private void Update()
-    {
-        
-    }
+    //private void Update()
+    //{
+          
+    //}
     #endregion
 }
