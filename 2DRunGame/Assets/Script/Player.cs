@@ -19,8 +19,9 @@ public class Player : MonoBehaviour
     public AudioClip soundCoin;
 
     public Animator ani;
-    public Rigidbody2D rid;
+    public Rigidbody2D rig;
     public CapsuleCollider2D cap;
+    public AudioSource aud;
     #endregion
 
     #region 方法
@@ -37,10 +38,36 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Jump()
     {
-        // 動畫控制器,設定布林值("參數名稱"，布林值)
-        // true 玩家是否按下空白鍵
+        
+        // 布林值 = 輸入.按下按鍵(按鍵列舉.空白鍵)
         bool space = Input.GetKeyDown(KeyCode.Space);
-        ani.SetBool("跳躍開關", space);
+
+        // 2D 物理.射線碰撞(起點，方向，長度，圖層)
+        // 圖層語法：1 << 圖層編號
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-0.07f, -1.1f), -transform.up, 0.05f, 1 << 8);
+
+        if (hit)
+        {
+            isGround = true;
+        }
+        else
+        {
+            // 是否在地板上 = 否
+            isGround = false;
+        }
+
+        if (isGround)
+        {
+            // 如果按下空白鍵
+            if (space)
+            {
+                // 動畫控制器,設定布林值("參數名稱"，布林值)
+                ani.SetBool("跳躍開關", true);
+                // 鋼體.添加推力(二維向量)
+                rig.AddForce(new Vector2(0, jump));
+            }
+         
+        }
     }
 
     /// <summary>
@@ -52,9 +79,19 @@ public class Player : MonoBehaviour
         ani.SetBool("滑行開關", ctrl);
 
         // 如果 按下 ctrl
-        // 滑行 位移 -0.1 -1.5 尺寸 1.35 1.35
+        if (ctrl)
+        {
+            // 滑行 位移 -0.1 -1.5 尺寸 1.35 1.35
+            cap.offset = new Vector2(-0.1f, -1.5f);
+            cap.size = new Vector2(1.35f, 1.35f);
+        }
         // 否則
-        // 站立 位移 -0.1 -1.5 尺寸 1.35 1.35
+        else
+        {
+            // 站立 位移 -0.1 -1.5 尺寸 1.35 1.35
+            cap.offset = new Vector2(-0.1f, -0.4f);
+            cap.size = new Vector2(1.35f, 3.6f);
+        }
     }
 
     /// <summary>
@@ -88,12 +125,6 @@ public class Player : MonoBehaviour
     {
 
     }
-
-    private void Update()
-    {
-        Jump();
-        Slide();
-    }
     #endregion
 
     #region 事件
@@ -102,9 +133,23 @@ public class Player : MonoBehaviour
          
     }
 
-    //private void Update()
-    //{
-          
-    //}
+    private void Update()
+    {
+        Jump();
+        Slide();
+    }
+
+    // 繪製圖示事件：繪製輔助線條，僅在 Scene 看得到
+    private void OnDrawGizmos()
+    {
+        // 指定顏色
+        Gizmos.color = Color.red;
+        // 圖示.繪製射線(起點，方向)
+        // transform.position 此物件的座標
+        // transform.up 此物件上方      Y
+        // transform.right 此物件右方   X
+        // transform.forward 此物件前方 Z
+        Gizmos.DrawRay(transform.position + new Vector3(-0.07f, -1.1f), -transform.up * 0.05f);
+    }
     #endregion
 }
