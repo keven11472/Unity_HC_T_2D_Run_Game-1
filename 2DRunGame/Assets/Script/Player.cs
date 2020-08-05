@@ -30,7 +30,10 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        
+        // Time.deltatime 一禎的時間
+        // Update 內移動、旋轉、運動 * Time.deltatime
+        // 避免不同裝置執行速度不同
+        transform.Translate(speed * Time.deltaTime, 0, 0);   // 變形.位移(x, y, z)
     }
 
     /// <summary>
@@ -48,13 +51,14 @@ public class Player : MonoBehaviour
 
         if (hit)
         {
-            isGround = true;
+            isGround = true;     // 如果 碰到地板上 是否在地板上 = 是
+            ani.SetBool("跳躍開關", false);
         }
         else
         {
-            // 是否在地板上 = 否
-            isGround = false;
+            isGround = false;    // 是否在地板上 = 否
         }
+        
 
         if (isGround)
         {
@@ -65,6 +69,7 @@ public class Player : MonoBehaviour
                 ani.SetBool("跳躍開關", true);
                 // 鋼體.添加推力(二維向量)
                 rig.AddForce(new Vector2(0, jump));
+                aud.PlayOneShot(soundJump, 0.3f);
             }
          
         }
@@ -77,6 +82,10 @@ public class Player : MonoBehaviour
     {
         bool ctrl = Input.GetKey(KeyCode.LeftControl);
         ani.SetBool("滑行開關", ctrl);
+
+        // 如果 按下 左邊 ctrl 播放一次音效
+        // 判斷式如果只有一行程是可以省略大括號
+        if (Input.GetKeyDown(KeyCode.LeftControl)) aud.PlayOneShot(soundSlide, 0.8f);
 
         // 如果 按下 ctrl
         if (ctrl)
@@ -137,6 +146,7 @@ public class Player : MonoBehaviour
     {
         Jump();
         Slide();
+        Move();
     }
 
     // 繪製圖示事件：繪製輔助線條，僅在 Scene 看得到

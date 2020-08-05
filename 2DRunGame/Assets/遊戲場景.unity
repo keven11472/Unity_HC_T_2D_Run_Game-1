@@ -12252,7 +12252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jump: 350
+  jump: 400
   hp: 500
   isGround: 0
   coin: 0
