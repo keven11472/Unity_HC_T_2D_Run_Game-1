@@ -440,6 +440,7 @@ GameObject:
   - component: {fileID: 95141777}
   - component: {fileID: 95141776}
   - component: {fileID: 95141775}
+  - component: {fileID: 95141778}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -512,6 +513,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &95141778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95141774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af33f6f3090aeef4982c8b25229827eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1852693008}
+  speed: 5
+  limitY: {x: 0, y: 0.7}
+  limitX: {x: -0.1, y: 122}
 --- !u!1 &122655313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,7 +1378,7 @@ GameObject:
   - component: {fileID: 412170674}
   - component: {fileID: 412170673}
   - component: {fileID: 412170672}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: "\u61F8\u7A7A\u5730\u677F"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12177,7 +12194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1852693006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.37, y: -1.34, z: 0}
+  m_LocalPosition: {x: -5, y: -0.7, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -12222,7 +12239,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &1852693011
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -12252,7 +12269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jump: 400
+  jump: 380
   hp: 500
   isGround: 0
   coin: 0
@@ -12260,6 +12277,8 @@ MonoBehaviour:
   soundSlide: {fileID: 8300000, guid: 8d899ee5dc9b19b4bb40d2d813bd330c, type: 3}
   soundJump: {fileID: 8300000, guid: 479ca2ea507c3524a8bb01e886504898, type: 3}
   soundCoin: {fileID: 8300000, guid: b8675035d3849184db3ecb34fde3e97d, type: 3}
+  textCoin: {fileID: 497732791}
+  imageHp: {fileID: 1796375176}
   ani: {fileID: 1852693009}
   rig: {fileID: 1852693010}
   cap: {fileID: 1852693011}

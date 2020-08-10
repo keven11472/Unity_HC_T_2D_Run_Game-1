@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -6,17 +7,24 @@ public class Player : MonoBehaviour
     [Header("移動速度"), Range(0, 1000)]
     public float speed = 5;
     [Header("跳越高度"), Range(0, 1000)]
-    public int jump = 350;
+    public int jump = 150;
     [Header("血量"), Range(0, 2000)]
     public float hp = 500;
 
     public bool isGround;
     public int coin;
+    private float hpMax;
+
     [Header("音效區域")]
     public AudioClip soundHit;
     public AudioClip soundSlide;
     public AudioClip soundJump;
     public AudioClip soundCoin;
+
+    [Header("金幣數量")]
+    public Text textCoin;
+    [Header("血條")]
+    public Image imageHp;
 
     public Animator ani;
     public Rigidbody2D rig;
@@ -106,17 +114,28 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 吃金幣
     /// </summary>
-    private void EatCoin()
+    /// <param name="obj"></param>
+    private void EatCoin(GameObject obj)
     {
-        
+        coin++;                                  // 遞增 1
+        aud.PlayOneShot(soundCoin, 1.2f);        // 播放音效
+        textCoin.text = "金幣數量：" + coin;     // 文字介面.文字 = 字串 + 整數
+        Destroy(obj, 0);                         // 刪除(金幣物件，延遲時間)
     }
 
     /// <summary>
     /// 受傷
     /// </summary>
-    private void Hurt()
+    private void Hurt(GameObject obj)
     {
-
+        // 扣血 hp -= 10
+        // 播放音效
+        // 刪除障礙物
+        hp -= 50;                                // 遞減 10
+        aud.PlayOneShot(soundHit, 1.2f);         // 播放音效
+        imageHp.fillAmount = hp / hpMax;         // 更新血條
+        Destroy(obj, 0);                         // 刪除(金幣物件，延遲時間)
+        
     }
 
     /// <summary>
@@ -139,7 +158,7 @@ public class Player : MonoBehaviour
     #region 事件
     private void Start()
     {
-         
+        hpMax = hp;     // 最大血量 = 血量
     }
 
     private void Update()
@@ -147,6 +166,21 @@ public class Player : MonoBehaviour
         Jump();
         Slide();
         Move();
+    }
+
+    // 碰撞 (觸發) 事件：
+    // 兩個物件必須有一個勾選 Is Trigger
+    // Enter 進入時執行一次
+    // Stay 碰撞時執行一秒約 60 次
+    // Exit 離開時執行一次
+    // 參數：紀錄碰撞到的碰撞資訊
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // 如果 碰撞資訊.標籤 等於 金幣 吃掉金幣(碰撞資訊.遊戲物件)
+        if (collision.tag == "金幣") EatCoin(collision.gameObject);
+
+        // 如果 碰到障礙物 受傷
+        if (collision.tag == "障礙物") Hurt(collision.gameObject);
     }
 
     // 繪製圖示事件：繪製輔助線條，僅在 Scene 看得到
