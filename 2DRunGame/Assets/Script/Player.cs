@@ -7,13 +7,14 @@ public class Player : MonoBehaviour
     [Header("移動速度"), Range(0, 1000)]
     public float speed = 5;
     [Header("跳越高度"), Range(0, 1000)]
-    public int jump = 150;
+    public int jump = 400;
     [Header("血量"), Range(0, 2000)]
     public float hp = 500;
 
     public bool isGround;
     public int coin;
     private float hpMax;
+    private bool dead;
 
     [Header("音效區域")]
     public AudioClip soundHit;
@@ -25,6 +26,11 @@ public class Player : MonoBehaviour
     public Text textCoin;
     [Header("血條")]
     public Image imageHp;
+    [Header("結束畫面")]
+    public GameObject final;
+    [Header("過關標題與金幣")]
+    public Text textTitle;
+    public Text textFinalCoin;
 
     public Animator ani;
     public Rigidbody2D rig;
@@ -131,10 +137,12 @@ public class Player : MonoBehaviour
         // 扣血 hp -= 10
         // 播放音效
         // 刪除障礙物
-        hp -= 50;                                // 遞減 10
+        hp -= 500;                               // 遞減 10
         aud.PlayOneShot(soundHit, 1.2f);         // 播放音效
         imageHp.fillAmount = hp / hpMax;         // 更新血條
         Destroy(obj, 0);                         // 刪除(金幣物件，延遲時間)
+
+        if (hp <= 0) Dead();                     // 如果血量小於等於 0 死亡
         
     }
 
@@ -143,7 +151,11 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Dead()
     {
-
+        ani.SetTrigger("死亡觸發");
+        final.SetActive(true);
+        dead = true;
+        textTitle.text = "你失敗惹...";
+        textFinalCoin.text = "本次金幣數量：" + coin;
     }
 
     /// <summary>
@@ -151,7 +163,10 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Success()
     {
-
+        speed = 0;
+        final.SetActive(true);
+        textTitle.text = "恭喜你過關惹!";
+        textFinalCoin.text = "本次金幣數量：" + coin;
     }
     #endregion
 
@@ -163,6 +178,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (dead) return;   // 如果 死亡 跳出
+
+        if (transform.position.y <= -5) Dead();   // 第二種死法
+
         Jump();
         Slide();
         Move();
@@ -181,6 +200,9 @@ public class Player : MonoBehaviour
 
         // 如果 碰到障礙物 受傷
         if (collision.tag == "障礙物") Hurt(collision.gameObject);
+
+        // 如果 碰撞資訊.名稱 等於 傳送門 過關
+        if (collision.name == "傳送門") Success();
     }
 
     // 繪製圖示事件：繪製輔助線條，僅在 Scene 看得到
